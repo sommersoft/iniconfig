@@ -35,6 +35,10 @@ check_tokens = {
         '# comment',
         []
     ),
+    'comment (unicode)': (
+        u'# 中文',
+        []
+    ),
     'comment on value': (
         'value = 1',
         [(0, None, 'value', '1')]
@@ -145,6 +149,18 @@ def test_error_on_weird_lines(line):
 def test_iniconfig_from_file(tmpdir):
     path = tmpdir/'test.txt'
     path.write('[metadata]\nname=1')
+
+    config = IniConfig(path=path)
+    assert list(config.sections) == ['metadata']
+    config = IniConfig(path, "[diff]")
+    assert list(config.sections) == ['diff']
+    with pytest.raises(TypeError):
+        IniConfig(data=path.read())
+
+def test_iniconfig_from_file_unicode(tmpdir, capsys):
+    path = tmpdir/'test.txt'
+    #[metadata]\nname=1\n# 中文
+    path.write_binary(b'[metadata]\nname=1\n# \xe4\xb8\xad\xe6\x96\x87')
 
     config = IniConfig(path=path)
     assert list(config.sections) == ['metadata']

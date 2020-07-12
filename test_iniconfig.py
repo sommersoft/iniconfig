@@ -1,3 +1,4 @@
+# -*- coding: utf8 -*-
 import py
 import pytest
 from iniconfig import IniConfig, ParseError, __all__ as ALL

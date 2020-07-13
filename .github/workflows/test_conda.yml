@@ -5,12 +5,11 @@ on: [push]
 jobs:
   build:
 
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        python-version: [2.7, 3.5, 3.6]
+        python-version: [3.6,3.7]
 
     steps:
       - uses: actions/checkout@v2
@@ -23,6 +22,6 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install tox tox-conda
+          pip install tox
       - name: Run Tox
-        run: tox -e py
+        run: tox -c tox_conda.ini -e py

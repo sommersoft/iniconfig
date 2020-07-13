@@ -49,14 +49,13 @@ class IniConfig(object):
     def __init__(self, path, data=None):
         self.path = str(path)  # convenience
         if data is None:
-            f = open(self.path, 'rb')
+            f = open(self.path)
             try:
-                f_contents = f.read()
+                tokens = self._parse(iter(f))
             finally:
                 f.close()
-            data = f_contents.decode(encoding='utf-8', errors='replace')
-        
-        tokens = self._parse(data.splitlines(True))
+        else:
+            tokens = self._parse(data.splitlines(True))
 
         self._sources = {}
         self.sections = {}

@@ -12,6 +12,9 @@ jobs:
         python-version: [3.6,3.7]
 
     steps:
+      - name: Default encoding
+        run: "[System.Text.Encoding]::Default"
+        shell: powershell
       - uses: actions/checkout@v2
       - name: Setup Python ${{ matrix.python-verison }}
         uses: s-weigand/setup-conda@v1
